@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Contact() {
   return (
-    <div className='flex justify-around py-20 px-40'>
+    <div className='flex justify-around py-10'>
       <div className='w-[40%] p-5'>
         <h4 className='font-semibold'>Rút gọn link Gonlink.online</h4>
         <p>
@@ -10,10 +10,11 @@ export default function Contact() {
         </p>
         <div className='flex'>
           <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/twitter.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/linkedin.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/youtube.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/pinterest.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
         </div>
       </div>
 
@@ -26,7 +27,7 @@ export default function Contact() {
       </div>
 
       <div className='w-[20%] p-5 flex flex-col'>
-        <h4 className='font-semibold'>Contact</h4>
+        <h4 className='font-semibold'>Link</h4>
         <p className='text-cyan-500'>Bảng giá dịch vụ</p>
         <p className='text-cyan-500'>Điều khoản sử dụng</p>
         <p className='text-cyan-500'>Chính sách bảo mật</p>
