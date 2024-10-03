@@ -9,12 +9,12 @@ export default function Contact() {
         Gonlink.online là website hỗ trợ rút gọn URL miễn phí cho toàn bộ người dùng và tuân thủ theo pháp luật Việt Nam hiện hành. Nghiêm cấm mọi hành vi sử dụng chức năng rút gọn link cho mục đích vi phạm pháp luật.
         </p>
         <div className='flex'>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-          <img src="/src/assets/facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../linkedin.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../pinterest.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../twitter.png" alt="Description of image" className='w-6 h-6 mr-1'/>
+          <img src="./../youtube.png" alt="Description of image" className='w-6 h-6 mr-1'/>
         </div>
       </div>
 
