@@ -2,7 +2,7 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto'; // Đảm bảo Chart.js được tự động đăng ký
 
-const BarChart = ({ label, data, labels }) => {
+const BarChart = ({ label, data, labels, width }) => {
 
   const chartData = {
     labels: labels, // Nhận nhãn từ props
@@ -82,7 +82,7 @@ const BarChart = ({ label, data, labels }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="w-[68rem] h-96">
+      <div className={`w-[${width}rem] h-96`}>
         <Bar data={chartData} options={options} />
       </div>
     </div>

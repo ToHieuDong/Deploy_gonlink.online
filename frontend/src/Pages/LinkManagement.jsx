@@ -91,7 +91,7 @@ export default function LinkManagement() {
         </div>
         <div className='flex flex-col p-2 w-[20] m-5 text-center rounded-lg bg-white'>
           <div className='font-bold'>Tổng lượt truy cập</div>
-          <div>{parseInt(totalClick)+1}</div>
+          <div>{parseInt(totalClick)}</div>
         </div>
         <div className='flex flex-col p-2 w-[20] m-5 text-center rounded-lg bg-white'>
           <div className='font-bold'>Trung bình truy cập / link</div>
