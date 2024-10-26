@@ -28,22 +28,22 @@ export default function LinkHistory({link, onDelete, updateStatus }) {
     <div className='flex justify-center'>
         <div className='w-[74rem] flex justify-between items-center p-2 hover:bg-slate-100 border'>
             
-            <div>
+            <div className='flex-col'>
                 <a href={link.originalUrl}><p className='truncate w-80'>{link.originalUrl}</p></a>
                 <a href={`${process.env.HOST_PAGE}` + "/" + link.shortCode}><p className='truncate w-80'>{`${process.env.HOST_PAGE}` + "/" + link.shortCode}</p></a>     
             </div>
             
             
-            <div>
+            <div className='flex'>
                 <p>{formatDate(link.trafficDate)}</p>
             </div>
 
-            <div className='w-[10rem] text-center'>
+            <div className='w-[10rem]'>
                 {link.active && (
-                    <p className='border border-green-500 rounded-full p-2'>Còn hoạt động</p>
+                    <p className='text-green-500 rounded-full p-2'>Còn hoạt động</p>
                 )}
                 {!link.active && (
-                    <p className='border border-red-500 rounded-full p-2'>Không hoạt động</p>
+                    <p className='text-red-500 rounded-full p-2'>Không hoạt động</p>
                 )}
             </div>
             

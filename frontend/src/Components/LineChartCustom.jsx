@@ -103,7 +103,7 @@ const LineChartCustom = (object) => {
         };
         const today = new Date();
         const daysAgo = new Date();
-        daysAgo.setDate(today.getDate() - 1);
+        daysAgo.setDate(today.getDate() - 365);
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         try {
             const response = await fetch(
@@ -117,7 +117,7 @@ const LineChartCustom = (object) => {
                 body: JSON.stringify({
                     // "shortCode":"FjppMm",
                     "shortCode":shortCode,
-                    "fromDate": formatDate(today),
+                    "fromDate": formatDate(daysAgo),
                     "toDate": formatDate(today),
                     "zoneId": timeZone,
 
@@ -220,7 +220,7 @@ const LineChartCustom = (object) => {
                         </div>)}
                     </div>
                 ) : chartType === 'geo' ? (
-                    <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.countries} width={68}/>
+                    <GeoChart label="Biểu đồ quốc gia truy cập" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
                 ) : null}   
             </div>
         </div>

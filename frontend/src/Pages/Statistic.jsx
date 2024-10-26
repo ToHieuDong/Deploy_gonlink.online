@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Cookies from 'js-cookie';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -18,6 +18,14 @@ export default function Statistic() {
   const [statisticData, setStatisticData] = useState({});
 
   const [checkedItems, setCheckedItems] = useState([false, false, false, false]); // Mảng để lưu trạng thái checkbox
+
+  const lineChartRef = useRef();
+  const barChartRef = useRef();
+  const pieChartRef = useRef();
+  const geoChartRef = useRef();
+
+
+
 
   const handleToggle = (index) => {
     // Tạo một bản sao mới của mảng checkedItems và thay đổi trạng thái checkbox ở vị trí index
@@ -160,35 +168,47 @@ const getArrDay = async (token, shortCode) => {
         console.error("Error calling API:", error);
     }
 }
-  
-  
 
-  const handleExportPDF = async () => {
-    const pdf = new jsPDF("p", "pt", "a4"); // Tạo đối tượng PDF
-    const input = chartRef.current; // Chọn phần tử chứa biểu đồ
 
-    pdf.setFontSize(16); // Cài đặt kích thước font chữ
-    pdf.text("Statistical Report", 40, 40); // Thêm chữ vào vị trí (40, 40)
 
-    pdf.addFileToVFS('TimesNewRoman.ttf', timesNewRomanFont);
-    pdf.addFont('TimesNewRoman.ttf', 'TimesNewRoman', 'normal');
-    pdf.setFont('TimesNewRoman');
+const handleExportPDF = async () => {
+  const pdf = new jsPDF();
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
 
-    pdf.setFontSize(12);
-    pdf.text("Biểu đồ này thể hiện thông tin chi tiết về lưu lượng truy cập.", 40, 60);
+  // Hàm phụ để kiểm tra và thêm hình ảnh vào PDF
+  const addChartToPDF = async (chartRef) => {
+    if (chartRef?.current) {
+      const chartCanvas = await html2canvas(chartRef.current);
+      const chartImgData = chartCanvas.toDataURL('image/png');
+      pdf.addImage(
+        chartImgData, 
+        'PNG', 
+        0, 
+        0, 
+        pageWidth, 
+        (chartCanvas.height * pageWidth) / chartCanvas.width
+      );
+      pdf.addPage(); // Tạo trang mới nếu có biểu đồ tiếp theo
+    }
+  };
 
-    // Sử dụng html2canvas để chuyển đổi DOM thành ảnh
-    await html2canvas(input, { scale: 2 }).then(canvas => {
-        const imgData = canvas.toDataURL("image/png");
-        const imgWidth = 595.28;
-        const pageHeight = 841.89;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        const heightLeft = imgHeight;
+  // Thêm biểu đồ vào PDF nếu tồn tại
+  await addChartToPDF(lineChartRef);
+  await addChartToPDF(barChartRef);
+  await addChartToPDF(pieChartRef);
+  await addChartToPDF(geoChartRef);
 
-        pdf.addImage(imgData, 'PNG', 0, 100, imgWidth, imgHeight);
-        pdf.save("chart_report.pdf");  // Xuất file PDF
-    });
-}
+  // Xóa trang trống cuối cùng nếu không có biểu đồ nào khác sau GeoChart
+  if (pdf.getNumberOfPages() > 1) pdf.deletePage(pdf.getNumberOfPages());
+
+  // Lưu PDF
+  pdf.save('statistics-report.pdf');
+};
+
+
+
+
 
 
   
@@ -214,6 +234,10 @@ const getArrDay = async (token, shortCode) => {
             </li>
           ))}
         </ul>
+
+        <div>
+          <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
+        </div>
       </div>
       <div className='w-[75%] overflow-auto'>
         <div className='flex flex-col items-center justify-center border rounded-lg p-5 m-5'>
@@ -228,19 +252,19 @@ const getArrDay = async (token, shortCode) => {
               <p className=''>Đường dẫn rút gọn: {`${process.env.HOST_PAGE}` + "/" + statisticData.shortCode}</p>
             </div>
 
-            {checkedItems[0] && <div className='hover:bg-gray-100 my-2'>
+            {checkedItems[0] && <div className='hover:bg-gray-100 my-2' ref={barChartRef}>
               <h4 className='text-lg'>Nội dung thống kê theo giờ</h4>
               <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={68}/>
               
             </div>}
 
-            {checkedItems[1] && <div className='hover:bg-gray-100 my-2'>
+            {checkedItems[1] && <div className='hover:bg-gray-100 my-2' ref={lineChartRef} >
               <h4 className='text-lg'>Nội dung phát triển theo ngày</h4>
               <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={68} />
               
             </div>}
 
-            {checkedItems[2] && <div className='hover:bg-gray-100 my-2'>
+            {checkedItems[2] && <div className='hover:bg-gray-100 my-2' ref={pieChartRef}>
               <h4 className='text-lg'>Nội dung chi tiết truy cập</h4>
               <div className='flex'>
                 {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
@@ -272,9 +296,9 @@ const getArrDay = async (token, shortCode) => {
               </div>
             </div>}
 
-            {checkedItems[3] && <div className='hover:bg-gray-100 my-2'>
-              <h4 className='text-lg'>Nội dung về khu vực truy cập</h4>
-              <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.countries} width={68}/>
+            {checkedItems[3] && <div className='hover:bg-gray-100 my-2' ref={geoChartRef}>
+              <h4 className='text-lg my-2'>Nội dung về khu vực truy cập</h4>
+              <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
             </div>}
 
           </div>

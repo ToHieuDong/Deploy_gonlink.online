@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import PieChart from '../Components/PieChart';
+import GeoChart from '../Components/GeoChart';
 
 export default function LinkManagement() {
 
@@ -11,8 +12,6 @@ export default function LinkManagement() {
   const [totalClick, setTotalClick] = useState(0)
   const [totalLink, setTotalLink] = useState(0)
   const [objData, setObjData] = useState()
-  
-  
 
 
   useEffect(() => {
@@ -79,7 +78,7 @@ export default function LinkManagement() {
 
   return (
     // h-[calc(100vh-70px)] 
-    <div className='h-[calc(100vh-70px)] bg-gray-100'>
+    <div className='bg-gray-100'>
       <div className='font-bold text-xl pt-5 px-3'>
         Thống kê
       </div>
@@ -99,7 +98,7 @@ export default function LinkManagement() {
         </div>
       </div>
 
-      <div className='flex'>
+      <div className='flex m-2'>
         {objData && (
             <div className='w-72 h-80 bg-white m-2 rounded-lg'>
               <PieChart label={"Biểu đồ khu vực truy cập"} labels={objData.zoneIds.map(item => item.name || "Không xác định")} data={objData.zoneIds.map(item => item.data)}/>
@@ -129,7 +128,14 @@ export default function LinkManagement() {
         }
       </div>
 
-
+      <div className='flex m-2'>
+        {objData && (
+            <div className='w-full bg-white m-2 rounded-lg'>
+              <GeoChart label="Biểu đồ quốc gia truy cập" data={objData.zoneIds} width={68}/>
+            </div>
+          ) 
+        }
+      </div>
 
     </div>
     
