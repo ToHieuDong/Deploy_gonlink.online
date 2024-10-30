@@ -82,7 +82,8 @@ const BarChart = ({ label, data, labels, width }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className={`w-[${width}rem] h-96`}>
+      {/* <div className={`w-[${width}rem] h-96`}> */}
+      <div style={{ width: `${width}rem`, height: "24rem" }}>
         <Bar data={chartData} options={options} />
       </div>
     </div>

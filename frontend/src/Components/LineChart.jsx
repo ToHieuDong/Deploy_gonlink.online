@@ -89,11 +89,12 @@ const LineChart = ({ label, data, labels, width }) => {
       },
     },
   };
+  
 
   return (
     <div className="flex justify-center items-center">
-      <div className={`w-[${width}rem] h-96`}>
-      {/* <div className="w-[68rem] h-96"> */}
+      {/* <div className={`w-[${width}rem] h-96`}> */}
+      <div style={{ width: `${width}rem`, height: "24rem" }}>
         <Line data={chartData} options={options} />
       </div>
     </div>

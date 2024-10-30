@@ -4,6 +4,7 @@ import { useUser } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import PieChart from '../Components/PieChart';
 import GeoChart from '../Components/GeoChart';
+import LineChart from '../Components/LineChart';
 
 export default function LinkManagement() {
 
@@ -12,6 +13,7 @@ export default function LinkManagement() {
   const [totalClick, setTotalClick] = useState(0)
   const [totalLink, setTotalLink] = useState(0)
   const [objData, setObjData] = useState()
+  const [traficRealTime, setTraficRealTime] = useState([])
 
 
   useEffect(() => {
@@ -29,6 +31,55 @@ export default function LinkManagement() {
     
   }, [])
   console.log(objData);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (Cookies.get('token')) {
+        getRealTime(Cookies.get('token'));
+      }
+    }, 5000);
+
+    // Hủy interval khi component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const getRealTime = async (token) => {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    try {
+      const response = await fetch(
+        `${process.env.REAL_TIME_ACCOUNT}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            "zoneId": timeZone,
+          }),
+        },
+      );
+
+      if (response.ok) {
+        // Xử lý khi API trả về thành công
+        const data = await response.json();
+        console.log(data.data);
+        
+        setTraficRealTime(data.data)
+
+
+
+
+      } else {
+        // Xử lý khi API trả về lỗi
+        console.error("API call failed");
+        return ;
+      }
+    } catch (error) {
+      // Xử lý lỗi khi gọi API
+      console.error("Error calling API:", error);
+    }
+  }
   
 
   const getInfo = async (token) => {
@@ -96,6 +147,15 @@ export default function LinkManagement() {
           <div className='font-bold'>Trung bình truy cập / link</div>
           <div>{totalLink !== 0 ? parseInt(totalClick / totalLink) : 'N/A'}</div>
         </div>
+      </div>
+
+      <div className='flex m-2'>
+        {objData && (
+            <div className='w-full bg-white m-2 rounded-lg'>
+              <LineChart label="Biểu đồ truy cập theo thời gian thực" labels={Array.from({ length: 60 }, (_, i) => i + 1)} data={traficRealTime.data} width={68} />
+            </div>
+          ) 
+        }
       </div>
 
       <div className='flex m-2'>
