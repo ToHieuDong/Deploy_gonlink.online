@@ -21,16 +21,17 @@ export default function Header() {
   }
 
   return (
-    <div className='flex justify-around items-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 p-1'>
+    // <div className='flex justify-around items-center bg-gradient-to-b from-white to-blue-100 p-1'>
+    <div className='flex justify-around items-center p-1'>
       <img src="./../Logo.png" alt="" className='w-[180px]' onClick={()=>navigate("/")}/>
       <ul className='flex gap-4 md:gap-14'>
-        <li className='flex items-center hover:font-bold cursor-pointer'> <Link to={"home"}>Trang chủ</Link> </li>
-        {/* {name && <li className='hover:font-bold cursor-pointer'> <Link to={"history"}>Lịch sử</Link> </li>} */}
-        <li className='flex items-center hover:font-bold cursor-pointer'> <Link to={"contact"}>Liên hệ</Link> </li>
-        <li className='flex items-center hover:font-bold cursor-pointer'> <Link to={"about"}>Thông tin</Link> </li>
+        <li className='flex items-center hover:text-blue-500 cursor-pointer'> <Link to={"home"}>Trang chủ</Link> </li>
+        {/* {name && <li className='hover:text-blue-500 cursor-pointer'> <Link to={"history"}>Lịch sử</Link> </li>} */}
+        <li className='flex items-center hover:text-blue-500 cursor-pointer'> <Link to={"contact"}>Liên hệ</Link> </li>
+        <li className='flex items-center hover:text-blue-500 cursor-pointer'> <Link to={"about"}>Thông tin</Link> </li>
         <li className='cursor-pointer relative'> 
           {name?
-            <div onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center hover:font-bold cursor-pointer">
+            <div onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center hover:text-blue-500 cursor-pointer">
               <img src={avatar} alt="" className='w-[40px] h-[40px] rounded-full'/>
               &nbsp;&nbsp;{name}
             </div>

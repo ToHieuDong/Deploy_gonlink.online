@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Contact() {
   return (
-    <div className='flex justify-around py-10'>
+    <div className='flex justify-around py-10 bg-blue-950 text-white'>
       <div className='w-[40%] p-5'>
         <h4 className='font-semibold'>Rút gọn link Gonlink.online</h4>
         <p>

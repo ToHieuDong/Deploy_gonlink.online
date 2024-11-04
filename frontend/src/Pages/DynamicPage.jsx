@@ -27,7 +27,7 @@ export default function DynamicPage() {
 
     useEffect(() => {
         // Lấy thông tin từ navigator
-        const userAgentData = navigator.userAgentData;
+        // const userAgentData = navigator.userAgentData;
         console.log(isMobile,
             isTablet,
             isDesktop,

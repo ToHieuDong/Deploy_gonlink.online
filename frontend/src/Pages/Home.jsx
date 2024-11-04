@@ -386,20 +386,20 @@ export default function Home() {
     <div className='flex justify-center h-screen'>
       <div className='flex-col'>
         <h1 className='flex justify-center pt-28 font-bold text-xl'>Gọn Link - Rút gọn link miễn phí. Dữ liệu lưu giữ vĩnh viễn</h1>
-        <div  className='flex-col py-10'>
+        <div  className='flex-col pt-10 pb-5'>
           <p className='flex justify-center'>Website hỗ trợ rút gọn link, thu gọn link, làm ngắn link, short link hoàn toàn miễn phí, </p>
           <p className='flex justify-center'>với Gonlink.online bạn có thể chia sẻ trên mạng xã hội, google, youtube, facebook, cốc cốc</p>
         </div>
 
         {errorShortLink && (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center pb-5">
             {/* <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-10 w-10"></div> */}
             <div className='flex justify-center p-2 text-red-500'>{error}</div>
           </div>
         )}
 
         {isLoading && (
-          <div className="my-2 flex justify-center items-center">
+          <div className="my-2 flex justify-center items-center pb-5">
             <div className="h-10 w-10 rounded-full border-4 border-t-transparent border-b-transparent border-r-transparent animate-spin"
               style={{background: 'linear-gradient(90deg, #ff7e5f, #feb47b)', clipPath: 'circle(50%)'}}>
             </div>
@@ -407,20 +407,20 @@ export default function Home() {
         )}
 
         {isShortCode ? 
-        <div className='flex justify-between border rounded-md p-3'>
+        <div className='flex justify-between border rounded-3xl p-3 bg-white'>
           <input onChange={(e) => setLink(e.target.value)} disabled  type="text" className='w-[70%] focus:outline-none mx-5 bg-white' placeholder='Link cần rút gọn của bạn' value={link}/>
-          <button onClick={handleCopyShortLink} className='font-bold text-xl px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-700' type="button">Copy</button>
-          <button onClick={() => {navigate("/")}} className='font-bold text-xl px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-700 ml-2' type="button">Mới</button>
+          <button onClick={handleCopyShortLink} className='font-bold text-xl px-5 py-2 rounded-3xl bg-blue-500 hover:bg-blue-700' type="button">Copy</button>
+          <button onClick={() => {navigate("/")}} className='font-bold text-xl px-5 py-2 rounded-3xl bg-blue-500 hover:bg-blue-700 ml-2' type="button">Mới</button>
         </div>
         : 
-        <div className='w-[1000px]'>
-          <div className='flex justify-between border rounded-t-md p-3'>
+        <div className='w-[1000px] bg-white rounded-3xl'>
+          <div className='flex justify-between border rounded-t-3xl p-3 '>
             <input onChange={(e) => setLink(e.target.value)} type="text" className='w-[70%] focus:outline-none mx-5' placeholder='Link cần rút gọn của bạn' value={link}/>
-            <button onClick={handleShortLink} className='font-bold text-xl px-5 py-2 rounded-md bg-blue-600 hover:bg-blue-700' type="button">{isLoading ? 'Đang tạo...' : 'Rút gọn'}</button>
+            <button onClick={handleShortLink} className='font-bold text-xl px-5 py-2 rounded-3xl bg-blue-500 hover:bg-blue-700' type="button">{isLoading ? 'Đang tạo...' : 'Rút gọn'}</button>
           </div>
-          <div className='flex-col justify-between items-center border rounded-b-md p-3'>
+          <div className='flex-col justify-between items-center border rounded-b-3xl p-3'>
             <div className='flex justify-between items-center'>
-              <button onClick={handleSettingToggle} className='font-bold text-base px-3 py-1 rounded-md bg-blue-600 hover:bg-blue-700' type="button"><FontAwesomeIcon icon={faGear} /> Tùy chọn</button>
+              <button onClick={handleSettingToggle} className='font-bold text-base px-3 py-1 rounded-3xl bg-blue-500 hover:bg-blue-700' type="button"><FontAwesomeIcon icon={faGear} /> Tùy chọn</button>
               <p className='pl-10'> Bằng việc bấm vào nút <span className='font-bold'>RÚT GỌN LINK</span>, đồng nghĩa với việc bạn đồng ý với <span className='text-red-500'>Điều khoản sử dụng</span></p>
             </div>
             {settingToggle && <div className='flex items-center justify-between p-2 mt-3'>
@@ -458,12 +458,12 @@ export default function Home() {
         {isShortCode && (
           <div className='flex border rounded-sm p-2 mt-4'> 
             <div>
-              <button onClick={handleSaveImage} className='font-bold text-xl px-3 py-1 rounded-lg bg-blue-600 hover:bg-blue-700' type="button">Lưu QR code</button>
+              <button onClick={handleSaveImage} className='font-bold text-xl px-3 py-1 rounded-lg bg-blue-500 hover:bg-blue-700' type="button">Lưu QR code</button>
               <p className='flex p-2 text-red-500'>Lưu ý: Những link gốc có nội dung giả mạo, lừa đảo, tín dụng đen, đồi trụy, vi phạm pháp luật </p>
               <p className='flex p-2 text-red-500'>sẽ bị xóa mà không cần báo trước.</p>
 
             </div>
-            <div className='p-1 border-4 border-gray-800 rounded-md ml-2'>
+            <div className='p-1 border-4 border-gray-800 rounded-3xl ml-2'>
               <img src={qr} alt="QR" style={{ width: 120, height: 120 }} />
             </div>
           </div>
