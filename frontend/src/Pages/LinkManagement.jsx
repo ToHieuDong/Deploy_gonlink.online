@@ -30,7 +30,7 @@ export default function LinkManagement() {
     setObjData(JSON.parse(localStorage.getItem("userObj")))
     
   }, [])
-  console.log(objData);
+  // console.log(objData);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

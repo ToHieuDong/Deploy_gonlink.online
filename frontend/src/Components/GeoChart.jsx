@@ -4,14 +4,39 @@ import { Chart } from "react-google-charts";
 
 
 const timezoneToCountryCode = {
-  "Asia/Saigon": "VN",       // Việt Nam
-  "Pacific/Honolulu": "US",   // Hoa Kỳ (Hawaii)
-  "Australia/Sydney": "AU",   // Úc
-  "Asia/Seoul": "KR",         // Hàn Quốc
-  "Europe/Paris": "FR",       // Pháp
-  "America/Sao_Paulo": "BR",  // Brazil
-  "Asia/Shanghai": "CN",      // Trung Quốc
+  "Asia/Saigon": "VN",          // Việt Nam
+  "Pacific/Honolulu": "US",      // Hoa Kỳ (Hawaii)
+  "Australia/Sydney": "AU",      // Úc
+  "Asia/Seoul": "KR",            // Hàn Quốc
+  "Europe/Paris": "FR",          // Pháp
+  "America/Sao_Paulo": "BR",     // Brazil
+  "Asia/Shanghai": "CN",         // Trung Quốc
+  "America/New_York": "US",      // Hoa Kỳ (New York)
+  "America/Los_Angeles": "US",   // Hoa Kỳ (Los Angeles)
+  "America/Chicago": "US",       // Hoa Kỳ (Chicago)
+  "America/Denver": "US",        // Hoa Kỳ (Denver)
+  "Europe/London": "GB",         // Vương quốc Anh
+  "Europe/Berlin": "DE",         // Đức
+  "Europe/Madrid": "ES",         // Tây Ban Nha
+  "Europe/Rome": "IT",           // Ý
+  "Asia/Tokyo": "JP",            // Nhật Bản
+  "Asia/Bangkok": "TH",          // Thái Lan
+  "Asia/Kuala_Lumpur": "MY",     // Malaysia
+  "Asia/Jakarta": "ID",          // Indonesia
+  "Asia/Dubai": "AE",            // Các Tiểu vương quốc Ả Rập Thống nhất
+  "Africa/Cairo": "EG",          // Ai Cập
+  "Africa/Johannesburg": "ZA",   // Nam Phi
+  "Europe/Moscow": "RU",         // Nga
+  "America/Toronto": "CA",       // Canada
+  "America/Mexico_City": "MX",   // Mexico
+  "America/Argentina/Buenos_Aires": "AR", // Argentina
+  "Pacific/Auckland": "NZ",      // New Zealand
+  "Pacific/Fiji": "FJ",          // Fiji
+  "Asia/Kolkata": "IN",          // Ấn Độ
+  "Asia/Karachi": "PK",          // Pakistan
+  "Asia/Dhaka": "BD",            // Bangladesh
 };
+
 
 const GeoChart = ({ label, data, labels, width }) => {
 

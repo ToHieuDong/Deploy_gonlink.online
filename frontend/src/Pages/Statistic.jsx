@@ -16,6 +16,8 @@ export default function Statistic() {
   const [traffic, setTraffic] = useState();
 
   const [statisticData, setStatisticData] = useState({});
+  const [userData, setUserData] = useState({});
+  const [dayRangeRaw, setDayRangeRaw] = useState({});
 
   const [checkedItems, setCheckedItems] = useState([false, false, false, false]); // Mảng để lưu trạng thái checkbox
 
@@ -41,6 +43,12 @@ export default function Statistic() {
     if (JSON.parse(localStorage.getItem("link"))) {
       setStatisticData(JSON.parse(localStorage.getItem("link")))
     }
+
+    if (JSON.parse(localStorage.getItem("userObj"))) {
+      setUserData(JSON.parse(localStorage.getItem("userObj")))
+    }
+
+    // setStatisticData({clicks: 16, shortCode:"HHzrM9", originalUrl: "https://cloud.mongodb.com/v2/63f46a2b2ed57d7fd1474d80#/metrics/replicaSet/65ef10c71033053ac4768cac/explorer/gonlink/account/find"})
   }, [])
 
   useEffect(() => {
@@ -148,6 +156,7 @@ const getArrDay = async (token, shortCode) => {
             // Xử lý khi API trả về thành công
             const data = await response.json();
             console.log(data.data)
+            setDayRangeRaw(data.data)
             const extract = extractDatesAndValues(data.data.click)
             console.log(extract);
             
@@ -176,43 +185,120 @@ const handleExportPDF = async () => {
   const pageWidth = pdf.internal.pageSize.getWidth();
   const pageHeight = pdf.internal.pageSize.getHeight();
 
+   // Thêm chữ vào vị trí (40, 40)
+  pdf.addFileToVFS('TimesNewRoman.ttf', timesNewRomanFont);
+  pdf.addFont('TimesNewRoman.ttf', 'TimesNewRoman', 'normal');
+  pdf.setFont('TimesNewRoman');
+
+  pdf.setFontSize(20);
+  const title = "BÁO CÁO THỐNG KÊ RÚT GỌN LINK";
+  const textWidth = pdf.getTextWidth(title);
+  const x = (pageWidth - textWidth) / 2;
+
+  pdf.text(title, x, 20);
+  pdf.setFontSize(16);
+  pdf.text("Chủ sở hữu đường dẫn: " + userData.name, 20, 40);
+  pdf.text("Đường dẫn rút gọn: " + `${process.env.HOST_PAGE}` + "/" + statisticData.shortCode, 20, 50);
+
+  // Các thông tin bổ sung
+  pdf.text("Thông tin chi tiết:", 20, 70);
+  pdf.text("- Ngày tạo: " + new Date().toLocaleDateString("vi-VN"), 30, 80);
+  pdf.text("- Lượt click: " + statisticData.clicks, 30, 90);
+  pdf.text("- Thời gian hết hạn: Không giới hạn", 30, 100);
+  
+  // Ghi chú
+  pdf.text("Ghi chú:", 20, 120);
+  pdf.text("Báo cáo này cung cấp thông tin về lượt truy cập và trạng thái của đường dẫn rút gọn.", 30, 130, { maxWidth: pageWidth - 40 });
+
+
   // Hàm phụ để kiểm tra và thêm hình ảnh vào PDF
   const addChartToPDF = async (chartRef) => {
+    
     if (chartRef?.current) {
+      pdf.addPage();
       const chartCanvas = await html2canvas(chartRef.current);
       const chartImgData = chartCanvas.toDataURL('image/png');
+
+      // Kích thước thu nhỏ 80%
+      const scaledWidth = pageWidth * 0.8;
+      const scaledHeight = (chartCanvas.height * scaledWidth) / chartCanvas.width;
+
+
       pdf.addImage(
         chartImgData, 
         'PNG', 
-        0, 
-        0, 
-        pageWidth, 
-        (chartCanvas.height * pageWidth) / chartCanvas.width
+        (pageWidth - scaledWidth) / 2, 
+        20, 
+        scaledWidth, 
+        scaledHeight
       );
-      pdf.addPage(); // Tạo trang mới nếu có biểu đồ tiếp theo
     }
   };
 
   // Thêm biểu đồ vào PDF nếu tồn tại
-  await addChartToPDF(lineChartRef);
   await addChartToPDF(barChartRef);
+  if (barChartRef?.current) {
+    pdf.text("Ghi chú:", 20, 140);
+
+    const peakHour = dayRangeRaw.click.reduce((max, current) => {
+      return Number(current.data) > Number(max.data) ? current : max;
+    });
+
+    // Nhận xét tổng quát
+    pdf.text("Nhận xét tổng quát:", 20, 150);
+    pdf.text("Giờ cao điểm là " + peakHour.name + " với " + peakHour.data + " lượt truy cập, cho thấy sự quan tâm cao trong khoảng thời gian này.", 30, 160, { maxWidth: pageWidth - 40 });
+    pdf.text("Sau giờ cao điểm, lượt truy cập giảm mạnh, cho thấy nhu cầu có thể giảm sau khoảng thời gian đó.", 30, 180, { maxWidth: pageWidth - 40 });
+
+
+    // Tạo phân tích
+    // dayRangeRaw.click.forEach((hourData, index) => {
+    //   pdf.text(`${hourData.name}: ${hourData.data} lượt truy cập`, 30, 200 + index * 10, { maxWidth: pageWidth - 40 });
+    // });
+
+    
+
+  }
+
+  await addChartToPDF(lineChartRef);
+  // if (lineChartRef?.current) {
+  //   pdf.text("Ghi chú:", 20, 150);
+  // }
   await addChartToPDF(pieChartRef);
   await addChartToPDF(geoChartRef);
+  if (geoChartRef?.current) {
+    const maxZone = traffic.zoneIds.reduce((max, current) => {
+      return Number(current.data) > Number(max.data) ? current : max;
+    });
+  
+    pdf.text("Ghi chú:", 20, 150);
+    pdf.text("Khu vực có truy cập cao nhất: " + maxZone.name + ", có " + maxZone.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
+  
+    // Lọc các khu vực còn lại và thêm vào PDF
+    let yPosition = 170; // Vị trí y bắt đầu ghi chú các khu vực còn lại
+    traffic.zoneIds
+      .filter(zone => zone.name !== maxZone.name) // Bỏ khu vực có lượng truy cập cao nhất
+      .forEach(zone => {
+        pdf.text("- " + zone.name + ": " + zone.data + " lượt truy cập.", 30, yPosition, { maxWidth: pageWidth - 40 });
+        yPosition += 10; // Tăng vị trí y cho dòng tiếp theo
+      });
+  }
 
-  // Xóa trang trống cuối cùng nếu không có biểu đồ nào khác sau GeoChart
-  if (pdf.getNumberOfPages() > 1) pdf.deletePage(pdf.getNumberOfPages());
+
+
+
+
+
+  // Mở URL trong tab mới
+  const pdfBlob = pdf.output("blob");
+  const pdfURL = URL.createObjectURL(pdfBlob);
+  window.open(pdfURL, "_blank");
 
   // Lưu PDF
-  pdf.save('statistics-report.pdf');
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().slice(0, 19).replace("T", "_").replace(/:/g, "-");
+  pdf.save('StatisticsReportBy_'+ userData.name + '_' + formattedDate +'.pdf');
 };
 
-
-
-
-
-
-  
-  
   return (
     <div className='flex bg-gray-100 h-screen'>
       <div className='w-[25%]'>
@@ -248,7 +334,7 @@ const handleExportPDF = async () => {
 
             <div className='hover:bg-gray-100 my-1'>
               <h4 className='text-lg'>Báo cáo thống kê cho đường dẫn</h4>
-              <p className=''>Đường dẫn Gốc: {statisticData.originalUrl}</p>
+              {/* <p className=''>Đường dẫn Gốc: {statisticData.originalUrl}</p> */}
               <p className=''>Đường dẫn rút gọn: {`${process.env.HOST_PAGE}` + "/" + statisticData.shortCode}</p>
             </div>
 
@@ -266,6 +352,25 @@ const handleExportPDF = async () => {
 
             {checkedItems[2] && <div className='hover:bg-gray-100 my-2' ref={pieChartRef}>
               <h4 className='text-lg'>Nội dung chi tiết truy cập</h4>
+
+              <div className='flex'>
+                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                  <PieChart 
+                    label="Biểu đồ trình duyệt truy cập" 
+                    labels={traffic.browsers.map(item => item.name || "Không xác định")} 
+                    data={traffic.browsers.map(item => item.data)} 
+                  />
+                </div>)}
+
+                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                  <PieChart 
+                    label="Biểu đồ phiên bản trình duyệt" 
+                    labels={traffic.browserVersions.map(item => item.name || "Không xác định")} 
+                    data={traffic.browserVersions.map(item => item.data)} 
+                  />
+                </div>)}
+              </div>
+
               <div className='flex'>
                 {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
                   <PieChart 
@@ -282,18 +387,9 @@ const handleExportPDF = async () => {
                       data={traffic.zoneIds.map(item => item.data)} 
                   />
                 </div>)}
+              </div>
 
-                
-              </div>
-              <div className='flex'>
-                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                  <PieChart 
-                    label="Biểu đồ trình duyệt truy cập" 
-                    labels={traffic.browsers.map(item => item.name || "Không xác định")} 
-                    data={traffic.browsers.map(item => item.data)} 
-                  />
-                </div>)}
-              </div>
+              
             </div>}
 
             {checkedItems[3] && <div className='hover:bg-gray-100 my-2' ref={geoChartRef}>

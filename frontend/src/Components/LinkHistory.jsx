@@ -4,10 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
+import Popup from './Popup';
 
 export default function LinkHistory({link, onDelete, updateStatus }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const openPopup = () => {
+        setIsPopupOpen(true);
+    };
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -34,17 +44,25 @@ export default function LinkHistory({link, onDelete, updateStatus }) {
             </div>
             
             
-            <div className='flex'>
+            <div className=''>
                 <p>{formatDate(link.trafficDate)}</p>
             </div>
 
-            <div className='w-[10rem]'>
+            <div className=''>
+                <p>{link.isUsingPassword?"Có":"Không"}</p>
+            </div>
+
+            <div className=''>
                 {link.active && (
                     <p className='text-green-500 rounded-full p-2'>Còn hoạt động</p>
                 )}
                 {!link.active && (
                     <p className='text-red-500 rounded-full p-2'>Không hoạt động</p>
                 )}
+            </div>
+
+            <div className='r'>
+                <p>{link.maxUsage==="0"?"Vô hạn":link.maxUsage}</p>
             </div>
             
             <div className='cursor-pointer hover:text-blue-500' onClick={handleClick}>
@@ -62,6 +80,11 @@ export default function LinkHistory({link, onDelete, updateStatus }) {
                             <li className="block px-4 py-2 text-gray-800 hover:bg-slate-400 rounded-lg">
                                 <div onClick={updateStatus}>Thay đổi trạng thái</div>
                             </li>
+
+                            <li className="block px-4 py-2 text-gray-800 hover:bg-slate-400 rounded-lg">
+                                <div onClick={openPopup}>Cập nhật đường dẫn</div>
+                            </li>
+
                             <li className="block px-4 py-2 text-gray-800 hover:bg-slate-400 rounded-lg">
                                 <div onClick={onDelete}>Xóa link</div>
                             </li>
@@ -69,6 +92,8 @@ export default function LinkHistory({link, onDelete, updateStatus }) {
                     )}
                 </div>
             </div>
+
+            <Popup isOpen={isPopupOpen} onClose={closePopup} title="Cập nhật cho đường dẫn" link={link}/>
 
             
         </div>

@@ -176,11 +176,17 @@ export default function History() {
             <div>
               <p className='truncate w-80'>Link / Short Link</p>
             </div>
-            <div>
+            <div className=''>
               <p>Ngày tạo</p>
             </div>
-            <div className='w-[10rem] text-center'>
+            <div className=''>
+              <p>Yêu cầu mật khẩu</p>
+            </div>
+            <div className=''>
               <p>Trạng thái</p>
+            </div>
+            <div className=''>
+              <p>Giới hạn truy cập</p>
             </div>
             <div>
               <p>Số truy cập</p>

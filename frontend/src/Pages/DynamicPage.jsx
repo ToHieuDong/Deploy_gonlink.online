@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Await, useParams } from 'react-router-dom';
+import {
+    isMobile,
+    isTablet,
+    isDesktop,
+    browserName,
+    browserVersion,
+    osName,
+    osVersion,
+    engineName,
+} from 'react-device-detect';
 import Home from './Home';
 
 import { toast } from 'react-toastify';
@@ -18,34 +28,26 @@ export default function DynamicPage() {
     useEffect(() => {
         // Lấy thông tin từ navigator
         const userAgentData = navigator.userAgentData;
+        console.log(isMobile,
+            isTablet,
+            isDesktop,
+            browserName,
+            browserVersion,
+            osName,
+            osVersion,
+            engineName);
+        
 
-        if (userAgentData) {
-            const { brands, platform, mobile } = userAgentData;
 
-            setBrowserInfo({
-                browser: brands[0]?.brand || 'Unknown Browser',
-                browserVersion: brands[0]?.version || 'Unknown Version',
-                operatingSystem: platform || 'Unknown OS',
-                deviceType: mobile ? 'Mobile' : 'Desktop',
-            });
 
-        } else {
-            // Fallback nếu `navigator.userAgentData` không hỗ trợ
-            setBrowserInfo({
-                browser: 'Unknown',
-                browserVersion: 'Unknown',
-                operatingSystem: 'Unknown',
-                deviceType: 'Unknown',
-            });
-        }
-        console.log(browserInfo);
-        // checkPassword();
+        setBrowserInfo({
+            browser: browserName || 'Unknown Browser',
+            browserVersion: browserVersion || 'Unknown Version',
+            operatingSystem: osName || 'Unknown OS',
+            deviceType: isMobile ? 'Mobile' : 'Desktop',
+        });
         
     }, []);
-
-    console.log(browserInfo);
-
-    // window.location.href = 'https://www.youtube.com/watch?v=Ehy3OftSHLs';
 
     useEffect(() => {
         if (browserInfo.browser!=="") {
