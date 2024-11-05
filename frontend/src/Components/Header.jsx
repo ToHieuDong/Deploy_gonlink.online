@@ -59,7 +59,7 @@ export default function Header() {
       <div className="block md:hidden">
         <div className='flex justify-between items-center p-1'>
           <img src="./../Logo.png" alt="" className='w-[180px]' onClick={() => navigate("/")} />
-          <button onClick={() => setMenuOpen(!menuOpen)} className="text-blue-500">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="text-blue-500 mx-2">
             {/* Icon để mở/đóng menu */}
             {menuOpen ? '✖️' : name?<img src={avatar} alt="" className='w-[40px] h-[40px] rounded-full' />:'☰'}
           </button>

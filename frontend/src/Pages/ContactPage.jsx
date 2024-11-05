@@ -40,11 +40,11 @@ export default function ContactPage() {
                   <p className="text-base">
                     Khi sử dụng dịch vụ của chúng tôi, bạn đồng ý rằng bạn sẽ không:
                     <br />
-                    - Tái bản tài liệu, bán, cho thuê hoặc cấp phép lại tài liệu từ by.com.vn.
+                    - Tái bản tài liệu, bán, cho thuê hoặc cấp phép lại tài liệu từ gonlink.online.
                     <br />
-                    - Sao chép, phân phối lại nội dung tài liệu từ by.com.vn mà không được sự đồng ý của đội ngũ quản trị.
+                    - Sao chép, phân phối lại nội dung tài liệu từ gonlink.online mà không được sự đồng ý của đội ngũ quản trị.
                     <br />
-                    - Tạo link spam, gây ảnh hưởng đến một phần hoặc toàn bộ tài nguyên của by.com.vn.
+                    - Tạo link spam, gây ảnh hưởng đến một phần hoặc toàn bộ tài nguyên của gonlink.online.
                     <br />
                     - Rút gọn link tới các trang đích có nội dung giả mạo, cá độ, đánh bạc, lừa đảo, tín dụng đen, đồi trụy, vi phạm hiến pháp và pháp luật nước CHXHCN Việt Nam.
                     <br />
@@ -124,7 +124,7 @@ export default function ContactPage() {
                 <div className="my-2 py-2">
                   <h2 className="text-xl font-semibold text-blue-600">9. Liên hệ</h2>
                   <p className="text-base">
-                    Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về các điều khoản này, xin vui lòng liên hệ với chúng tôi qua email: gonlink.online@gmail.com.vn.
+                    Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về các điều khoản này, xin vui lòng liên hệ với chúng tôi qua email: gonlink.online@gmail.com.
                   </p>
                 </div>
 
@@ -177,11 +177,11 @@ export default function ContactPage() {
                   <p className="text-base">
                     Khi sử dụng dịch vụ của chúng tôi, bạn đồng ý rằng bạn sẽ không:
                     <br />
-                    - Tái bản tài liệu, bán, cho thuê hoặc cấp phép lại tài liệu từ by.com.vn.
+                    - Tái bản tài liệu, bán, cho thuê hoặc cấp phép lại tài liệu từ gonlink.online.
                     <br />
-                    - Sao chép, phân phối lại nội dung tài liệu từ by.com.vn mà không được sự đồng ý của đội ngũ quản trị.
+                    - Sao chép, phân phối lại nội dung tài liệu từ gonlink.online mà không được sự đồng ý của đội ngũ quản trị.
                     <br />
-                    - Tạo link spam, gây ảnh hưởng đến một phần hoặc toàn bộ tài nguyên của by.com.vn.
+                    - Tạo link spam, gây ảnh hưởng đến một phần hoặc toàn bộ tài nguyên của gonlink.online.
                     <br />
                     - Rút gọn link tới các trang đích có nội dung giả mạo, cá độ, đánh bạc, lừa đảo, tín dụng đen, đồi trụy, vi phạm hiến pháp và pháp luật nước CHXHCN Việt Nam.
                     <br />
@@ -261,7 +261,7 @@ export default function ContactPage() {
                 <div className="my-2 py-2">
                   <h2 className="text-xl font-semibold text-blue-600">9. Liên hệ</h2>
                   <p className="text-base">
-                    Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về các điều khoản này, xin vui lòng liên hệ với chúng tôi qua email: gonlink.online@gmail.com.vn.
+                    Nếu bạn có bất kỳ câu hỏi hoặc thắc mắc nào về các điều khoản này, xin vui lòng liên hệ với chúng tôi qua email: gonlink.online@gmail.com .
                   </p>
                 </div>
 
