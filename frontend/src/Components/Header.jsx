@@ -68,13 +68,13 @@ export default function Header() {
         {menuOpen && (
           <ul className='absolute right-0 top-12 w-48 bg-white shadow-lg rounded-lg p-2 z-50' onMouseLeave={() => setMenuOpen(false)}>
             <li className='flex items-center hover:text-blue-500 cursor-pointer'>
-              <Link to={"home"}>Trang chủ</Link>
+              <Link to={"home"} onClick={() => setMenuOpen(false)}>Trang chủ</Link>
             </li>
             <li className='flex items-center hover:text-blue-500 cursor-pointer'>
-              <Link to={"contact"}>Liên hệ</Link>
+              <Link to={"contact"} onClick={() => setMenuOpen(false)}>Liên hệ</Link>
             </li>
             <li className='flex items-center hover:text-blue-500 cursor-pointer'>
-              <Link to={"about"}>Thông tin</Link>
+              <Link to={"about"} onClick={() => setMenuOpen(false)}>Thông tin</Link>
             </li>
             <li className='cursor-pointer relative'>
               {name ? (
@@ -82,7 +82,7 @@ export default function Header() {
                   {name}
                 </div>
               ) : (
-                <Link to={"/login"}>Đăng nhập</Link>
+                <Link to={"/login"} onClick={() => setMenuOpen(false)}>Đăng nhập</Link>
               )}
 
               {dropdownOpen && name && (

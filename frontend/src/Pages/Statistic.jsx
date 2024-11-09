@@ -300,107 +300,218 @@ const handleExportPDF = async () => {
 };
 
   return (
-    <div className='flex bg-gray-100 h-screen'>
-      <div className='w-[25%]'>
-        <ul className='flex flex-col items-center justify-center p-2 my-5 space-y-2 bg-white rounded-lg py-5'>
-          <li className='flex items-center p-2 w-[80%] rounded-md m-1 font-semibold text-lg'>Lựa chọn nội dung báo cáo</li>
-          {['Nội dung thống kê theo giờ', 'Nội dung phát triển theo ngày', 'Nội dung chi tiết truy cập', 'Nội dung về khu vực truy cập'].map((item, index) => (
-            <li
-              key={index}
-              className='flex items-center hover:bg-gray-200 hover:font-bold cursor-pointer p-2 w-[80%] rounded-md m-1'
-              onClick={() => handleToggle(index)} // Cập nhật trạng thái checkbox khi nhấp vào
-            >
-              <input
-                type="checkbox"
-                checked={checkedItems[index]} // Gán giá trị checked từ trạng thái
-                readOnly // Ngăn người dùng tương tác trực tiếp
-                className="mr-2"
-              />
-              {item}
-            </li>
-          ))}
-        </ul>
+    <div>
+      <div className="hidden md:block">
+        <div className='flex bg-gray-100 h-screen'>
+          <div className='w-[25%]'>
+            <ul className='flex flex-col items-center justify-center p-2 my-5 space-y-2 bg-white rounded-lg py-5'>
+              <li className='flex items-center p-2 w-[80%] rounded-md m-1 font-semibold text-lg'>Lựa chọn nội dung báo cáo</li>
+              {['Nội dung thống kê theo giờ', 'Nội dung phát triển theo ngày', 'Nội dung chi tiết truy cập', 'Nội dung về khu vực truy cập'].map((item, index) => (
+                <li
+                  key={index}
+                  className='flex items-center hover:bg-gray-200 hover:font-bold cursor-pointer p-2 w-[80%] rounded-md m-1'
+                  onClick={() => handleToggle(index)} // Cập nhật trạng thái checkbox khi nhấp vào
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[index]} // Gán giá trị checked từ trạng thái
+                    readOnly // Ngăn người dùng tương tác trực tiếp
+                    className="mr-2"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
 
-        <div>
-          <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
-        </div>
-      </div>
-      <div className='w-[75%] overflow-auto'>
-        <div className='flex flex-col items-center justify-center border rounded-lg p-5 m-5'>
-          <div className='w-[794px] flex flex-col bg-white rounded-lg p-20 py-20'>
-            <div className='hover:bg-gray-100 text-center font-bold text-xl my-1'>
-              <h1>Báo cáo thống kê cho đường dẫn</h1>
+            <div>
+              <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
             </div>
-
-            <div className='hover:bg-gray-100 my-1'>
-              <h4 className='text-lg'>Báo cáo thống kê cho đường dẫn</h4>
-              {/* <p className=''>Đường dẫn Gốc: {statisticData.originalUrl}</p> */}
-              <p className=''>Đường dẫn rút gọn: {`${process.env.HOST_PAGE}` + "/" + statisticData.shortCode}</p>
-            </div>
-
-            {checkedItems[0] && <div className='hover:bg-gray-100 my-2' ref={barChartRef}>
-              <h4 className='text-lg'>Nội dung thống kê theo giờ</h4>
-              <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={68}/>
-              
-            </div>}
-
-            {checkedItems[1] && <div className='hover:bg-gray-100 my-2' ref={lineChartRef} >
-              <h4 className='text-lg'>Nội dung phát triển theo ngày</h4>
-              <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={68} />
-              
-            </div>}
-
-            {checkedItems[2] && <div className='hover:bg-gray-100 my-2' ref={pieChartRef}>
-              <h4 className='text-lg'>Nội dung chi tiết truy cập</h4>
-
-              <div className='flex'>
-                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                  <PieChart 
-                    label="Biểu đồ trình duyệt truy cập" 
-                    labels={traffic.browsers.map(item => item.name || "Không xác định")} 
-                    data={traffic.browsers.map(item => item.data)} 
-                  />
-                </div>)}
-
-                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                  <PieChart 
-                    label="Biểu đồ phiên bản trình duyệt" 
-                    labels={traffic.browserVersions.map(item => item.name || "Không xác định")} 
-                    data={traffic.browserVersions.map(item => item.data)} 
-                  />
-                </div>)}
-              </div>
-
-              <div className='flex'>
-                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                  <PieChart 
-                      label="Biểu đồ các thiết bị truy cập" 
-                      labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
-                      data={traffic.deviceTypes.map(item => item.data)} 
-                  />
-                </div>)}
-
-                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                  <PieChart 
-                      label="Biểu đồ khu vực truy cập" 
-                      labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
-                      data={traffic.zoneIds.map(item => item.data)} 
-                  />
-                </div>)}
-              </div>
-
-              
-            </div>}
-
-            {checkedItems[3] && <div className='hover:bg-gray-100 my-2' ref={geoChartRef}>
-              <h4 className='text-lg my-2'>Nội dung về khu vực truy cập</h4>
-              <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
-            </div>}
-
           </div>
+          <div className='w-[75%] overflow-auto'>
+            <div className='flex flex-col items-center justify-center border rounded-lg p-5 m-5'>
+              <div className='w-[794px] flex flex-col bg-white rounded-lg p-20 py-20'>
+                <div className='hover:bg-gray-100 text-center font-bold text-xl my-1'>
+                  <h1>Báo cáo thống kê cho đường dẫn</h1>
+                </div>
+
+                <div className='hover:bg-gray-100 my-1'>
+                  <h4 className='text-lg'>Báo cáo thống kê cho đường dẫn</h4>
+                  {/* <p className=''>Đường dẫn Gốc: {statisticData.originalUrl}</p> */}
+                  <p className=''>Đường dẫn rút gọn: {`${process.env.HOST_PAGE}` + "/" + statisticData.shortCode}</p>
+                </div>
+
+                {checkedItems[0] && <div className='hover:bg-gray-100 my-2' ref={barChartRef}>
+                  <h4 className='text-lg'>Nội dung thống kê theo giờ</h4>
+                  <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={68}/>
+                  
+                </div>}
+
+                {checkedItems[1] && <div className='hover:bg-gray-100 my-2' ref={lineChartRef} >
+                  <h4 className='text-lg'>Nội dung phát triển theo ngày</h4>
+                  <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={68} />
+                  
+                </div>}
+
+                {checkedItems[2] && <div className='hover:bg-gray-100 my-2' ref={pieChartRef}>
+                  <h4 className='text-lg'>Nội dung chi tiết truy cập</h4>
+
+                  <div className='flex'>
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                        label="Biểu đồ trình duyệt truy cập" 
+                        labels={traffic.browsers.map(item => item.name || "Không xác định")} 
+                        data={traffic.browsers.map(item => item.data)} 
+                      />
+                    </div>)}
+
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                        label="Biểu đồ phiên bản trình duyệt" 
+                        labels={traffic.browserVersions.map(item => item.name || "Không xác định")} 
+                        data={traffic.browserVersions.map(item => item.data)} 
+                      />
+                    </div>)}
+                  </div>
+
+                  <div className='flex'>
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                          label="Biểu đồ các thiết bị truy cập" 
+                          labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
+                          data={traffic.deviceTypes.map(item => item.data)} 
+                      />
+                    </div>)}
+
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                          label="Biểu đồ khu vực truy cập" 
+                          labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
+                          data={traffic.zoneIds.map(item => item.data)} 
+                      />
+                    </div>)}
+                  </div>
+
+                  
+                </div>}
+
+                {checkedItems[3] && <div className='hover:bg-gray-100 my-2' ref={geoChartRef}>
+                  <h4 className='text-lg my-2'>Nội dung về khu vực truy cập</h4>
+                  <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
+                </div>}
+
+              </div>
+            </div>
+          </div>
+            
         </div>
       </div>
-        
+
+      <div className="block md:hidden">
+        <div className='flex flex-col bg-gray-100 h-screen'>
+          <div className=''>
+            <ul className='flex flex-col items-center justify-center p-1 space-y-2 bg-white rounded-lg'>
+              <li className='flex items-center w-[80%] rounded-md font-semibold text-lg'>Lựa chọn nội dung báo cáo</li>
+              {['Nội dung thống kê theo giờ', 'Nội dung phát triển theo ngày', 'Nội dung chi tiết truy cập', 'Nội dung về khu vực truy cập'].map((item, index) => (
+                <li
+                  key={index}
+                  className='flex items-center hover:bg-gray-200 cursor-pointer p-2 w-[80%] rounded-md m-1'
+                  onClick={() => handleToggle(index)} // Cập nhật trạng thái checkbox khi nhấp vào
+                >
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[index]} // Gán giá trị checked từ trạng thái
+                    readOnly // Ngăn người dùng tương tác trực tiếp
+                    className="mr-2"
+                  />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <div className='flex justify-center w-full'>
+              <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
+            </div>
+          </div>
+
+          <div className='overflow-auto'>
+            <div className='flex flex-col items-center justify-center'>
+              <div className='flex flex-col bg-white rounded-lg p-10 py-10'>
+                <div className='hover:bg-gray-100 text-center font-bold text-xl my-1'>
+                  <h1>Báo cáo thống kê cho đường dẫn</h1>
+                </div>
+
+                <div className='hover:bg-gray-100 my-1'>
+                  <h4 className='text-lg'>Báo cáo thống kê cho đường dẫn</h4>
+                  {/* <p className=''>Đường dẫn Gốc: {statisticData.originalUrl}</p> */}
+                  <p className=''>Đường dẫn rút gọn: {`${process.env.HOST_PAGE}` + "/" + statisticData.shortCode}</p>
+                </div>
+
+                {checkedItems[0] && <div className='hover:bg-gray-100 my-2' ref={barChartRef}>
+                  <h4 className='text-lg'>Nội dung thống kê theo giờ</h4>
+                  <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={20}/>
+                  
+                </div>}
+
+                {checkedItems[1] && <div className='hover:bg-gray-100 my-2' ref={lineChartRef} >
+                  <h4 className='text-lg'>Nội dung phát triển theo ngày</h4>
+                  <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={20} />
+                  
+                </div>}
+
+                {checkedItems[2] && <div className='hover:bg-gray-100 my-2' ref={pieChartRef}>
+                  <h4 className='text-lg'>Nội dung chi tiết truy cập</h4>
+
+                  <div className='flex flex-col'>
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                        label="Biểu đồ trình duyệt truy cập" 
+                        labels={traffic.browsers.map(item => item.name || "Không xác định")} 
+                        data={traffic.browsers.map(item => item.data)} 
+                      />
+                    </div>)}
+
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                        label="Biểu đồ phiên bản trình duyệt" 
+                        labels={traffic.browserVersions.map(item => item.name || "Không xác định")} 
+                        data={traffic.browserVersions.map(item => item.data)} 
+                      />
+                    </div>)}
+                  </div>
+
+                  <div className='flex flex-col'>
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                          label="Biểu đồ các thiết bị truy cập" 
+                          labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
+                          data={traffic.deviceTypes.map(item => item.data)} 
+                      />
+                    </div>)}
+
+                    {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                      <PieChart 
+                          label="Biểu đồ khu vực truy cập" 
+                          labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
+                          data={traffic.zoneIds.map(item => item.data)} 
+                      />
+                    </div>)}
+                  </div>
+
+                  
+                </div>}
+
+                {checkedItems[3] && <div className='hover:bg-gray-100 my-2' ref={geoChartRef}>
+                  <h4 className='text-lg my-2'>Nội dung về khu vực truy cập</h4>
+                  <GeoChart label="Biểu đồ theo giờ" labels={arrDay.label} data={traffic.zoneIds} width={20}/>
+                </div>}
+
+              </div>
+            </div>
+          </div>
+            
+        </div>
+
+      </div>
     </div>
   )
 }

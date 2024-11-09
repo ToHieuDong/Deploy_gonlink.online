@@ -1,6 +1,7 @@
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
+import banner from './../assets/banner-img.svg'
 
 export default function Login() {
 
@@ -16,10 +17,14 @@ export default function Login() {
     <div>
       <div className="hidden md:block">
         <div className='h-screen overflow-hidden flex'>
-          <div className='w-[30%] bg-slate-400'>
-
+          <div className='w-[30%] h-screen flex justify-center items-center mx-auto bg-blue-100'>
+            <img 
+              src={banner} 
+              alt="Descript" 
+              className="w-[200px] object-cover" 
+            />
           </div>
-          <div className='w-[70%] my-72'>
+          <div className='w-[70%] my-72  h-full'>
             <div className='flex justify-center'>
               <div>
                 <h3 className='font-bold text-xl p-2'>Login using a social network</h3>

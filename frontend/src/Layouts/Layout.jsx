@@ -17,7 +17,7 @@ export default function Layout() {
           <Outlet/>
         </div>
 
-        <DotLine/>
+        {/* <DotLine/> */}
         <Contact/>
         <Footer/>
       </UserProvider>

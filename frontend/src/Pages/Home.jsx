@@ -505,18 +505,18 @@ export default function Home() {
               )}
 
               {isShortCode ? 
-              <div className='flex justify-between border rounded-3xl p-1 bg-white'>
+              <div className='flex justify-between border rounded-lg p-1 bg-white'>
                 <input onChange={(e) => setLink(e.target.value)} disabled  type="text" className='w-[70%] focus:outline-none mx-5 bg-white' placeholder='Link cần rút gọn của bạn' value={link}/>
-                <button onClick={handleCopyShortLink} className='font-bold text-xl px-5 py-2 rounded-3xl bg-blue-500 hover:bg-blue-700' type="button">Copy</button>
-                <button onClick={() => {navigate("/")}} className='font-bold text-xl px-5 py-2 rounded-3xl bg-blue-500 hover:bg-blue-700 ml-2' type="button">Mới</button>
+                <button onClick={handleCopyShortLink} className='font-bold text-xl px-5 py-2 rounded-lg bg-blue-500 hover:bg-blue-700' type="button">Copy</button>
+                <button onClick={() => {navigate("/")}} className='font-bold text-xl px-5 py-2 rounded-lg bg-blue-500 hover:bg-blue-700 ml-2' type="button">Mới</button>
               </div>
               : 
-              <div className='w-[90%] bg-white rounded-3xl m-[5%]'>
-                <div className='flex justify-between border rounded-t-3xl p-1 '>
+              <div className='w-[90%] bg-white rounded-lg m-[5%]'>
+                <div className='flex justify-between border rounded-t-lg p-1 '>
                   <input onChange={(e) => setLink(e.target.value)} type="text" className='w-[60%] focus:outline-none mx-3' placeholder='Link cần rút gọn của bạn' value={link}/>
-                  <button onClick={handleShortLink} className='font-bold text-lg px-3 py-1 rounded-md bg-blue-500 hover:bg-blue-700' type="button">{isLoading ? 'Đang tạo' : 'Rút gọn'}</button>
+                  <button onClick={handleShortLink} className='font-bold text-lg px-3 py-1 rounded-lg bg-blue-500 hover:bg-blue-700' type="button">{isLoading ? 'Đang tạo' : 'Rút gọn'}</button>
                 </div>
-                <div className='flex-col justify-between items-center border rounded-b-3xl p-1'>
+                <div className='flex-col justify-between items-center border rounded-b-lg p-1'>
                   <div className='flex justify-between items-center'>
                     <button onClick={handleSettingToggle} className='font-bold text-base px-4 py-3 rounded-full bg-blue-500 hover:bg-blue-700' type="button"><FontAwesomeIcon icon={faGear} /></button>
                     <p className='pl-2'> Bằng việc bấm vào nút <span className='font-bold'>RÚT GỌN LINK</span>, đồng nghĩa với việc bạn đồng ý với <span className='text-red-500'>Điều khoản sử dụng</span></p>

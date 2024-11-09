@@ -16,6 +16,7 @@ const LineChartCustom = (object) => {
     const [arrDay, setArrDay] = useState({label:[], data:[]});
     const [arrMonth, setArrMonth] = useState({label:[], data:[]});
     const [traffic, setTraffic] = useState();
+    const [menuOptionOpen, setMenuOptionOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -178,50 +179,131 @@ const LineChartCustom = (object) => {
     // }
 
     return (
-        <div className='w-[70rem] h-96 flex flex-col justify-between items-center'>
-            <div className="flex space-x-4 mb-4 justify-end">
-                <button onClick={() => setChartType('day')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biến động theo giờ</button>
-                <button onClick={() => setChartType('hour')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ phát triển theo ngày</button>
-                <button onClick={() => setChartType('traffic')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Chi tiết các truy cập</button>
-                <button onClick={() => setChartType('geo')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ truy cập địa lý</button>
-                {/* <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button> */}
-                <button onClick={()=> {navigate('/statistic')}} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
+        <div>
+            <div className="hidden md:block">
+                <div className='w-[70rem] h-96 flex flex-col justify-between items-center'>
+                    <div className="flex space-x-4 mb-4 justify-end">
+                        <button onClick={() => setChartType('day')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biến động theo giờ</button>
+                        <button onClick={() => setChartType('hour')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ phát triển theo ngày</button>
+                        <button onClick={() => setChartType('traffic')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Chi tiết các truy cập</button>
+                        <button onClick={() => setChartType('geo')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ truy cập địa lý</button>
+                        {/* <button onClick={handleExportPDF} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button> */}
+                        <button onClick={()=> {navigate('/statistic')}} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
+                    </div>
+
+                    <div ref={chartRef}>
+                        {chartType === 'hour' ? (
+                            <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={68} />
+                        ) : chartType === 'day' ? (
+                            <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={68}/>
+                        ) : chartType === 'traffic' ? (
+                            <div className='flex'>
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ các thiết bị truy cập" 
+                                        labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
+                                        data={traffic.deviceTypes.map(item => item.data)} 
+                                    />
+                                </div>)}
+
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ khu vực truy cập" 
+                                        labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
+                                        data={traffic.zoneIds.map(item => item.data)} 
+                                    />
+                                </div>)}
+
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ trình duyệt truy cập" 
+                                        labels={traffic.browsers.map(item => item.name || "Không xác định")} 
+                                        data={traffic.browsers.map(item => item.data)} 
+                                    />
+                                </div>)}
+                            </div>
+                        ) : chartType === 'geo' ? (
+                            <GeoChart label="Biểu đồ quốc gia truy cập" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
+                        ) : null}   
+                    </div>
+                </div>
             </div>
 
-            <div ref={chartRef}>
-                {chartType === 'hour' ? (
-                    <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={68} />
-                ) : chartType === 'day' ? (
-                    <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={68}/>
-                ) : chartType === 'traffic' ? (
-                    <div className='flex'>
-                        {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                            <PieChart 
-                                label="Biểu đồ các thiết bị truy cập" 
-                                labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
-                                data={traffic.deviceTypes.map(item => item.data)} 
-                            />
-                        </div>)}
+            <div className="block md:hidden">
+                <div className='flex flex-col justify-between items-center relative'>
 
-                        {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                            <PieChart 
-                                label="Biểu đồ khu vực truy cập" 
-                                labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
-                                data={traffic.zoneIds.map(item => item.data)} 
-                            />
-                        </div>)}
-
-                        {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
-                            <PieChart 
-                                label="Biểu đồ trình duyệt truy cập" 
-                                labels={traffic.browsers.map(item => item.name || "Không xác định")} 
-                                data={traffic.browsers.map(item => item.data)} 
-                            />
-                        </div>)}
+                    <div className='flex justify-end items-end w-full'>
+                        <button onClick={() => setMenuOptionOpen(!menuOptionOpen)} className="text-blue-500 mx-2">
+                            {menuOptionOpen ? '✖️' :'☰'}
+                        </button>
                     </div>
-                ) : chartType === 'geo' ? (
-                    <GeoChart label="Biểu đồ quốc gia truy cập" labels={arrDay.label} data={traffic.zoneIds} width={68}/>
-                ) : null}   
+
+                    {menuOptionOpen && (
+                        <ul className='absolute right-0 top-12 w-48 bg-white shadow-lg rounded-lg p-2 z-50' onMouseLeave={() => setMenuOpen(false)}>
+                            <li className='flex items-center hover:bg-blue-500 hover:text-white rounded-md cursor-pointer'>
+                                <div onClick={() => {setChartType('day'); setMenuOptionOpen(false)}} className="px-2 py-1">Biến động theo giờ</div>
+                            </li>
+                            <li className='flex items-center hover:bg-blue-500 hover:text-white rounded-md cursor-pointer'>
+                                <div onClick={() => {setChartType('hour'); setMenuOptionOpen(false)}} className="px-2 py-1">Biểu đồ theo ngày</div>
+                            </li>
+                            <li className='flex items-center hover:bg-blue-500 hover:text-white rounded-md cursor-pointer'>
+                                <div onClick={() => {setChartType('traffic'); setMenuOptionOpen(false)}} className="px-2 py-1">Chi tiết truy cập</div>
+                            </li>
+                            <li className='flex items-center hover:bg-blue-500 hover:text-white rounded-md cursor-pointer'>
+                                <div onClick={() => {setChartType('geo'); setMenuOptionOpen(false)}} className="px-2 py-1">Biểu đồ địa lý</div>
+                            </li>
+                            <li className='flex items-center hover:bg-blue-500 hover:text-white rounded-md cursor-pointer'>
+                                <div onClick={()=> {navigate('/statistic')}} className="px-2 py-1">Xuất các thống kê</div>
+                            </li>
+                            
+                        </ul>
+                    )}
+
+                    {/* <div className="flex space-x-4 mb-4 justify-end">
+                        <button onClick={() => setChartType('day')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biến động theo giờ</button>
+                        <button onClick={() => setChartType('hour')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ phát triển theo ngày</button>
+                        <button onClick={() => setChartType('traffic')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Chi tiết các truy cập</button>
+                        <button onClick={() => setChartType('geo')} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Biểu đồ truy cập địa lý</button>
+                        <button onClick={()=> {navigate('/statistic')}} className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Xuất các thống kê</button>
+                    </div> */}
+
+                    <div ref={chartRef}>
+                        {chartType === 'hour' ? (
+                            <LineChart label="Biểu đồ theo ngày" labels={arrMonth.label} data={arrMonth.data} width={20} />
+                        ) : chartType === 'day' ? (
+                            <BarChart label="Biểu đồ theo giờ" labels={arrDay.label} data={arrDay.data} width={20}/>
+                        ) : chartType === 'traffic' ? (
+                            <div className='flex flex-col'>
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ các thiết bị truy cập" 
+                                        labels={traffic.deviceTypes.map(item => item.name || "Không xác định")} 
+                                        data={traffic.deviceTypes.map(item => item.data)} 
+                                    />
+                                </div>)}
+
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ khu vực truy cập" 
+                                        labels={traffic.zoneIds.map(item => item.name || "Không xác định")} 
+                                        data={traffic.zoneIds.map(item => item.data)} 
+                                    />
+                                </div>)}
+
+                                {traffic && (<div className='w-72 h-80 bg-white m-2 rounded-lg border'>
+                                    <PieChart 
+                                        label="Biểu đồ trình duyệt truy cập" 
+                                        labels={traffic.browsers.map(item => item.name || "Không xác định")} 
+                                        data={traffic.browsers.map(item => item.data)} 
+                                    />
+                                </div>)}
+                            </div>
+                        ) : chartType === 'geo' ? (
+                            <GeoChart label="Biểu đồ quốc gia truy cập" labels={arrDay.label} data={traffic.zoneIds} width={20}/>
+                        ) : null}   
+                    </div>
+                </div>
+
             </div>
         </div>
     );
