@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Await, useParams } from 'react-router-dom';
+import { Await, useNavigate, useParams } from 'react-router-dom';
 import {
     isMobile,
     isTablet,
@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 export default function DynamicPage() {
     const { '*': dynamicPath } = useParams();
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const [browserInfo, setBrowserInfo] = useState({
         browser: '',
@@ -161,6 +162,7 @@ export default function DynamicPage() {
                 } else {
                     console.error("Unexpected 403 response structure", link);
                 }
+                navigate("/page/notfound");
                 return;
             }
       
@@ -172,6 +174,7 @@ export default function DynamicPage() {
                 // alert('Liên kết không tồn tại.');
                 toast("Link không còn tồn tại!");
                 console.error("Failed API");
+                navigate("/page/notfound");
                 return;
             }
         } catch (error) {
@@ -209,6 +212,7 @@ export default function DynamicPage() {
       
             if (response.status == 401) {
               console.error("Failed login");
+              navigate("/page/notfound");
               return;
             }
 
@@ -249,6 +253,7 @@ export default function DynamicPage() {
                 } else {
                     console.error("Unexpected 403 response structure", link);
                 }
+                navigate("/page/notfound");
                 return;
             }
       
@@ -262,7 +267,7 @@ export default function DynamicPage() {
                 toast.error("Liên kết không tồn tại.");
                 const link = await response.json();
                 console.log(link.data.message);
-
+                navigate("/page/notfound");
                 // alert("Link không còn tồn tại!")
                 // console.error("Failed API");
                 return;

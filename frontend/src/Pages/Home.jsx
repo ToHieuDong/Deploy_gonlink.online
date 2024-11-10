@@ -449,7 +449,7 @@ export default function Home() {
                   <div className='flex-col'>
                     <p className='font-semibold px-2'> Thời gian hiệu lực </p>
                     <p className='text-sm font-thin px-2'> Sau 00:00 phút của ngày được chọn, link sẽ không còn hiệu lực. Để trống nếu giữ vĩnh viễn link. </p>
-                    <input onChange={(e) => {setTimeExpired(e.target.value+"T00:00:00Z"); console.log(e.target.value+timeExpired);}}  type="date" min={minDate} className='w-[80%] border rounded focus:outline-none p-1 m-2 bg-white' placeholder='MM/DD/YYYY'/>
+                    <input onChange={(e) => {setTimeExpired(e.target.value+"T00:00:00Z"); console.log(e.target.value+timeExpired);}}  type="date" min={minDate} className='w-[80%] border rounded focus:outline-none p-1 m-2 bg-white' placeholder='Ngày hết hạn'/>
                   </div>
                   <div className='flex-col'>
                     <p className='font-semibold px-2'> Mật khẩu bảo vệ </p>
@@ -541,7 +541,7 @@ export default function Home() {
                     <div className='flex-col  mt-1'>
                       <p className='font-semibold px-2'> Thời gian hiệu lực </p>
                       <p className='text-sm font-thin px-2'> Sau 00:00 phút của ngày được chọn, link sẽ không còn hiệu lực. Để trống nếu giữ vĩnh viễn link. </p>
-                      <input onChange={(e) => {setTimeExpired(e.target.value+"T00:00:00Z"); console.log(e.target.value+timeExpired);}}  type="date" min={minDate} className='w-[80%] border rounded focus:outline-none p-1 m-1 bg-white' placeholder='MM/DD/YYYY'/>
+                      <input onChange={(e) => {setTimeExpired(e.target.value+"T00:00:00Z"); console.log(e.target.value+timeExpired);}}  type="date" min={minDate} className='w-[80%] border rounded focus:outline-none p-1 m-1 bg-white' placeholder='Ngày hết hạn'/>
                     </div>
                     <div className='flex-col  mt-1'>
                       <p className='font-semibold px-2'> Mật khẩu bảo vệ </p>

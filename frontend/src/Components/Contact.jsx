@@ -13,7 +13,6 @@ export default function Contact() {
             <div className='flex'>
               <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../linkedin.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-              <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../pinterest.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../twitter.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../youtube.png" alt="Description of image" className='w-6 h-6 mr-1'/>
@@ -40,7 +39,6 @@ export default function Contact() {
             <div className='flex my-2 py-2'>
               <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../linkedin.png" alt="Description of image" className='w-6 h-6 mr-1'/>
-              <img src="./../facebook.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../pinterest.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../twitter.png" alt="Description of image" className='w-6 h-6 mr-1'/>
               <img src="./../youtube.png" alt="Description of image" className='w-6 h-6 mr-1'/>

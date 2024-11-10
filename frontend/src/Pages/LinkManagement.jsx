@@ -155,7 +155,7 @@ export default function LinkManagement() {
           <div className='flex m-2'>
             {objData && (
                 <div className='w-full bg-white m-2 rounded-lg'>
-                  <BarChart label="Biểu đồ truy cập theo thời gian thực" labels={Array.from({ length: 60 }, (_, i) => i + 1)} data={traficRealTime.data} width={68} />
+                  <BarChart label="Biểu đồ truy cập theo thời gian thực" labels={Array.from({ length: 60 }, (_, i) => "")} data={traficRealTime.data} width={68} />
                 </div>
               ) 
             }
@@ -229,7 +229,7 @@ export default function LinkManagement() {
           <div className='flex m-2'>
             {objData && (
                 <div className='w-full bg-white m-2 rounded-lg'>
-                  <BarChart label="Biểu đồ truy cập theo thời gian thực" labels={Array.from({ length: 60 }, (_, i) => i + 1)} data={traficRealTime.data} width={20} />
+                  <BarChart label="Biểu đồ truy cập theo thời gian thực" labels={Array.from({ length: 60 }, (_, i) => "")} data={traficRealTime.data} width={20} />
                 </div>
               ) 
             }

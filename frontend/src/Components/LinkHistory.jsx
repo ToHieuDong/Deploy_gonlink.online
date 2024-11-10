@@ -137,12 +137,13 @@ export default function LinkHistory({link, onDelete, updateStatus, loadLinkHisto
                                 <p className='text-green-500'><span className='text-black'>Trạng thái: </span>Hoạt động</p>
                             )}
                             {!link.active && (
-                                <p className='text-red-500'><span className='text-black'>Trạng thái: </span>Trạng thái: Ngừng</p>
+                                <p className='text-red-500'><span className='text-black'>Trạng thái: </span>Ngừng</p>
                             )}
                         </div>
 
                         <div className='flex text-sm'>
                             <p>Mật khẩu: {link.isUsingPassword?"Có":"Không"}</p>
+                            {/* <p>Mật khẩu: <input type="checkbox" disabled checked={!!link.isUsingPassword}/></p> */}
                         </div>
 
                         <div className='flex text-sm'>

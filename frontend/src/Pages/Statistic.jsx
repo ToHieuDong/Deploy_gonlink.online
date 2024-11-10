@@ -289,9 +289,9 @@ const handleExportPDF = async () => {
 
 
   // Mở URL trong tab mới
-  const pdfBlob = pdf.output("blob");
-  const pdfURL = URL.createObjectURL(pdfBlob);
-  window.open(pdfURL, "_blank");
+  // const pdfBlob = pdf.output("blob");
+  // const pdfURL = URL.createObjectURL(pdfBlob);
+  // window.open(pdfURL, "_blank");
 
   // Lưu PDF
   const currentDate = new Date();

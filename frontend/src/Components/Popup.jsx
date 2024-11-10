@@ -19,6 +19,19 @@ function Popup({ isOpen, onClose, title, link}) {
     
   }, [])
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'; // Ngừng cuộn
+    } else {
+      document.body.style.overflow = ''; // Cho phép cuộn lại
+    }
+
+    // Cleanup khi component bị unmount
+    return () => {
+      document.body.style.overflow = ''; // Đảm bảo cuộn lại nếu component bị hủy
+    };
+  }, [isOpen]);
+
   const handleUpdateShortLinkWithToken = async (token) => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     try {
@@ -103,8 +116,8 @@ function Popup({ isOpen, onClose, title, link}) {
       </div>
 
       <div className="block md:hidden">
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg max-w-4xl w-full relative">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
+          <div className="bg-white p-6 rounded shadow-lg max-w-4xl w-full relative z-50">
             <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-800">&times;</button>
 
             <h2 className="text-xl font-bold mb-4">{title} <span className='text-blue-500'>{`${process.env.HOST_PAGE}` + "/" + link.shortCode}</span></h2>
