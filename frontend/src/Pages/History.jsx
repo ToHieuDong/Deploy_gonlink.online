@@ -7,6 +7,7 @@ import { faAngleLeft, faAngleRight, faCaretLeft, faCaretRight, faGripVertical } 
 
 export default function History() {
 
+  
   const [historyShortLink, setHistoryShortLink] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -174,47 +175,53 @@ export default function History() {
   return (
     <div>
       <div className="hidden md:block">
-        <div className='justify-center h-[calc(100vh-70px)] bg-gray-100'>
+        <div className='justify-center bg-gray-100'>
 
           <h1 className='flex justify-center pt-12 font-bold text-xl'>Lịch sử rút gọn link</h1>
 
-          <div className='flex flex-col items-center bg-white m-2 p-2 rounded-lg overflow-auto'>
-            {historyShortLink && <div className='flex justify-center'>
-              <div className='w-[74rem] flex justify-between items-center border border-gray-300 p-4 rounded-t-md'> 
-                <div className='w-[30%] flex justify-center'>
+          <div className='w-full flex flex-col items-center bg-white p-2 rounded-lg overflow-auto'>
+            {historyShortLink && <div className='w-full flex justify-center'>
+              <div className='w-full flex justify-between items-center border border-gray-300 p-4 rounded-t-md'> 
+                <div className='w-[5%] flex justify-center'>
+                  <p>STT</p>
+                </div>
+                <div className='w-[12%] flex justify-around'>
+                  <p>Thao tác</p>
+                </div>
+                <div className='w-[25%] flex justify-center'>
                   <p className='truncate w-80'>Link / Short Link</p>
                 </div>
-                <div className='w-[10%] flex justify-center'>
+                <div className='w-[8%] flex justify-center'>
                   <p>Ngày tạo</p>
                 </div>
-                <div className='w-[10%] flex justify-center'>
-                  <p>Mật khẩu</p>
-                </div>
-                <div className='w-[10%] flex justify-center'>
+                <div className='w-[12%] flex justify-center'>
                   <p>Ngày hết hạn</p>
                 </div>
-                <div className='w-[10%] flex justify-center'>
+                <div className='w-[7%] flex justify-center'>
+                  <p>Mật khẩu</p>
+                </div>
+
+                <div className='w-[7%] flex justify-center'>
                   <p>Trạng thái</p>
                 </div>
                 <div className='w-[15%] flex justify-center'>
                   <p>Giới hạn truy cập</p>
                 </div>
-                <div className='w-[10%] flex justify-center'>
+                <div className='w-[9%] flex justify-center'>
                   <p>Số truy cập</p>
-                </div>
-                <div className='w-[5%] flex justify-center'>
-                  <p>&nbsp;</p>
                 </div>
               </div>
             </div>}
 
-            <div className='h-[452px]'>
+            <div className='h-[452px] w-full'>
               {/* {historyShortLink && historyShortLink.generalTraffic.map((link, index) => (<LinkHistory key={index} link={link}/>))} */}
               {loading ? (
-                <div className='w-20 h-20 border-4 border-t-4 border-t-blue-500 border-gray-300 rounded-full animate-spin mt-10'></div> // Hiển thị loader khi đang tải
+                <div className='flex justify-center'>
+                  <div className='w-20 h-20 border-4 border-t-4 border-t-blue-500 border-gray-300 rounded-full animate-spin mt-10'></div> 
+                </div>
               ) : (
                 historyShortLink && historyShortLink.generalTraffic.map((link, index) => (
-                  <LinkHistory key={index} link={link} loadLinkHistory={loadLinkHistory} updateStatus={()=> {handleUpdateStatus(Cookies.get('token'), link.shortCode, link.active)}} onDelete={()=>{handleRemoveLink(Cookies.get('token'), link.shortCode)}} />
+                  <LinkHistory key={index} index={index} link={link} loadLinkHistory={loadLinkHistory} updateStatus={()=> {handleUpdateStatus(Cookies.get('token'), link.shortCode, link.active)}} onDelete={()=>{handleRemoveLink(Cookies.get('token'), link.shortCode)}} />
                 ))
               )}
             </div>

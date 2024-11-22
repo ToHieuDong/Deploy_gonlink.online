@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
-import errorImage from './../../src/assets/image.png';
+import errorImage from './../../src/assets/imageError.png';
 
 export default function PageNotFound() {
   const {userObject, setUserObject, authenticated, setAuthenticated, email, setEmail, name, setName, avatar, setAvatar, token, setToken} = useUser();
@@ -65,8 +65,8 @@ export default function PageNotFound() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <img src={errorImage} alt="Error Image" className="h-[50%]" />
+    <div className="flex flex-col justify-start items-center h-screen">
+      <img src={errorImage} alt="Error Image" className="h-[15%] mt-44" />
       <p className="mt-4 text-3xl text-center text-gray-700">Đã xảy ra lỗi! Vui lòng thử lại sau.</p>
     </div>
   )

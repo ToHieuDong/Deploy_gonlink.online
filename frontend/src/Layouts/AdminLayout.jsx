@@ -3,6 +3,9 @@ import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { UserProvider } from '../context/UserContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faHouse, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { MdOutlineOtherHouses } from "react-icons/md";
+import { RiCalendarScheduleLine } from "react-icons/ri";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import Cookies from 'js-cookie';
 
 export default function AdminLayout() {
@@ -27,13 +30,15 @@ export default function AdminLayout() {
                     </div>  
 
                     <div className='flex bg-gray-200'>
-                        <div className='w-[20%]'>
+                        <div className='w-[20%] bg-gray-200'>
                             <ul className='flex flex-col items-center justify-center p-2 my-5'>
-                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1'>
-                                    <Link to={"linkmanagement"}><FontAwesomeIcon icon={faHouse} /> Trang chủ</Link> 
+                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1 hover:text-white'>
+                                    {/* <Link to={"linkmanagement"}><FontAwesomeIcon icon={faHouse} /> Trang chủ</Link>  */}
+                                    <Link to={"linkmanagement"} className='flex items-center space-x-2'><MdOutlineOtherHouses className="w-5 h-5" /> <span>Trang chủ</span></Link> 
                                 </li>
-                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1'>
-                                    <Link to={"history"}><FontAwesomeIcon icon={faCalendarDays} /> Lịch sử</Link>
+                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1 hover:text-white'>
+                                    {/* <Link to={"history"}><FontAwesomeIcon icon={faCalendarDays} /> Lịch sử</Link> */}
+                                    <Link to={"history"} className='flex items-center space-x-2'><RiCalendarScheduleLine className="w-5 h-5"/> <span>Lịch sử</span></Link>
                                 </li>
                                 {/* <li className='hover:font-bold cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1'>
                                     <Link to={"contact"}>Liên hệ</Link>
@@ -41,12 +46,13 @@ export default function AdminLayout() {
                                 <li className='hover:font-bold cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1'>
                                     <Link to={"about"}>Thông tin</Link>
                                 </li> */}
-                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1'>
-                                    <div onClick={handleLogout}> <FontAwesomeIcon icon={faRightFromBracket} /> Đăng xuất</div>
+                                <li className='cursor-pointer p-2 hover:bg-blue-500 w-[80%] rounded-md m-1 hover:text-white'>
+                                    {/* <div onClick={handleLogout}> <FontAwesomeIcon icon={faRightFromBracket} /> Đăng xuất</div> */}
+                                    <div onClick={handleLogout} className='flex items-center space-x-2'> <RiLogoutBoxLine className="w-5 h-5"/> <span>Đăng xuất</span></div>
                                 </li>
                             </ul>
                         </div>
-                        <div className='w-[80%]'>
+                        <div className='w-[80%] bg-gray-100 '>
                             <Outlet/>
                         </div>
                     </div>
