@@ -26,7 +26,7 @@ export default function Home() {
 
   const today = new Date();
   const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setDate(tomorrow.getDate());
   const minDate = tomorrow.toISOString().slice(0, 16);
   
 

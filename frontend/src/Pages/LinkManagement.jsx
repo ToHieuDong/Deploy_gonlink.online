@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 export default function LinkManagement() {
-
+  const [selectedOption, setSelectedOption] = useState('all-days');
   const {userObject, setUserObject, authenticated, setAuthenticated, email, setEmail, name, setName, avatar, setAvatar, token, setToken} = useUser();
   const navigate = useNavigate();
   const [totalClick, setTotalClick] = useState(0)
@@ -52,6 +52,13 @@ export default function LinkManagement() {
     // Hủy interval khi component unmount
     return () => clearInterval(intervalId);
   }, []);
+
+
+  const handleChange = (event) => {
+    const value = event.target.value;
+    setSelectedOption(value); // Cập nhật state
+    console.log('Option selected:', value); // Gọi hàm xử lý khác tại đây
+  };
 
   const getRealTime = async (token) => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -321,7 +328,13 @@ export default function LinkManagement() {
               Thống kê
             </div>
 
-            <div>
+            <div> 
+              <select className="mt-5 p-2 border rounded bg-white text-gray-700" value={selectedOption} onChange={handleChange}>
+                <option value="all-days">Tất cả</option>
+                <option value="week">Tuần gần nhất</option>
+                <option value="month">Tháng gần nhất</option>
+              </select>
+
               <button onClick={exportToExcel} className="mt-5 p-2 bg-blue-500 hover:bg-blue-700 cursor-pointer text-white font-bold mx-5 rounded"><FontAwesomeIcon icon={faDownload} /> Excel</button>
             </div>
           </div>

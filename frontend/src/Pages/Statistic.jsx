@@ -62,6 +62,7 @@ export default function Statistic() {
     if (Cookies.get('token') && statisticData) {
       getArrMonth(Cookies.get('token'), statisticData.shortCode);
       getArrDay(Cookies.get('token'), statisticData.shortCode);
+      getArrDayAll(Cookies.get('token'), statisticData.shortCode);
     }
     
   }, [statisticData])
@@ -170,7 +171,7 @@ const getArrDay = async (token, shortCode) => {
                 data: extract.values
             })
 
-            setTraffic(data.data)
+            // setTraffic(data.data)
             
         } else {
             // Xử lý khi API trả về lỗi
@@ -183,6 +184,55 @@ const getArrDay = async (token, shortCode) => {
     }
 }
 
+const getArrDayAll = async (token, shortCode) => {
+  const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng từ 0 đến 11
+      const day = String(date.getDate()).padStart(2, '0'); // Ngày từ 1 đến 31
+      return `${year}-${month}-${day}`;
+  };
+  const today = new Date();
+  const daysAgo = new Date();
+  daysAgo.setDate(today.getDate() - 365);
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  try {
+      const response = await fetch(
+          `${process.env.GET_DATA_DAY}`,
+          {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+              // "shortCode":"FjppMm",
+              "shortCode":shortCode,
+              "fromDate": formatDate(daysAgo),
+              "toDate": formatDate(today),
+              "zoneId": timeZone,
+
+          }),
+          },
+      );
+  
+      if (response.ok) {
+          // Xử lý khi API trả về thành công
+          const data = await response.json();
+          console.log(data.data)
+          console.log("ALL")
+
+          setTraffic(data.data)
+          
+      } else {
+          // Xử lý khi API trả về lỗi
+          console.error("API call failed");
+          return ;
+      }
+  } catch (error) {
+      // Xử lý lỗi khi gọi API
+      console.error("Error calling API:", error);
+  }
+}
 
 
 const handleExportPDF = async () => {
@@ -251,8 +301,8 @@ const handleExportPDF = async () => {
 
     // Nhận xét tổng quát
     pdf.text("Nhận xét tổng quát:", 20, 150);
-    pdf.text("Giờ cao điểm là " + peakHour.name + " với " + peakHour.data + " lượt truy cập, cho thấy sự quan tâm cao trong khoảng thời gian này.", 30, 160, { maxWidth: pageWidth - 40 });
-    pdf.text("Sau giờ cao điểm, lượt truy cập giảm mạnh, cho thấy nhu cầu có thể giảm sau khoảng thời gian đó.", 30, 180, { maxWidth: pageWidth - 40 });
+    pdf.text("Giờ cao điểm là " + peakHour.name + " với " + peakHour.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
+    // pdf.text("Sau giờ cao điểm, lượt truy cập giảm mạnh, cho thấy nhu cầu có thể giảm sau khoảng thời gian đó.", 30, 180, { maxWidth: pageWidth - 40 });
 
 
     // Tạo phân tích
@@ -271,21 +321,30 @@ const handleExportPDF = async () => {
   await addChartToPDF(pieChartRef);
   await addChartToPDF(geoChartRef);
   if (geoChartRef?.current) {
-    const maxZone = traffic.zoneIds.reduce((max, current) => {
-      return Number(current.data) > Number(max.data) ? current : max;
-    });
+    if (traffic.zoneIds!=[]) {
+      const maxZone = traffic.zoneIds.reduce((max, current) => {
+        return Number(current.data) > Number(max.data) ? current : max;
+      }, { data: -Infinity });
+
+      if (maxZone.name != undefined) {
+        pdf.text("Ghi chú:", 20, 150);
+        pdf.text("Khu vực có truy cập cao nhất: " + maxZone.name + ", có " + maxZone.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
+    
+        // Lọc các khu vực còn lại và thêm vào PDF
+        let yPosition = 170; // Vị trí y bắt đầu ghi chú các khu vực còn lại
+        traffic.zoneIds
+          .filter(zone => zone.name !== maxZone.name) // Bỏ khu vực có lượng truy cập cao nhất
+          .forEach(zone => {
+            pdf.text("- " + zone.name + ": " + zone.data + " lượt truy cập.", 30, yPosition, { maxWidth: pageWidth - 40 });
+            yPosition += 10; // Tăng vị trí y cho dòng tiếp theo
+          });
+      } else {
+        pdf.text("Ghi chú:", 20, 150);
+        pdf.text("Không có dữ liệu", 30, 160);
+      }
+    }
   
-    pdf.text("Ghi chú:", 20, 150);
-    pdf.text("Khu vực có truy cập cao nhất: " + maxZone.name + ", có " + maxZone.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
-  
-    // Lọc các khu vực còn lại và thêm vào PDF
-    let yPosition = 170; // Vị trí y bắt đầu ghi chú các khu vực còn lại
-    traffic.zoneIds
-      .filter(zone => zone.name !== maxZone.name) // Bỏ khu vực có lượng truy cập cao nhất
-      .forEach(zone => {
-        pdf.text("- " + zone.name + ": " + zone.data + " lượt truy cập.", 30, yPosition, { maxWidth: pageWidth - 40 });
-        yPosition += 10; // Tăng vị trí y cho dòng tiếp theo
-      });
+    
   }
   // Mở URL trong tab mới
   // const pdfBlob = pdf.output("blob");
@@ -391,21 +450,23 @@ const handleExportPDFMobile = async () => {
   await addChartToPDF(pieChartRefMobile);
   await addChartToPDF(geoChartRefMobile);
   if (geoChartRefMobile?.current) {
-    const maxZone = traffic.zoneIds.reduce((max, current) => {
-      return Number(current.data) > Number(max.data) ? current : max;
-    });
+    if (traffic.zoneIds!=[]) {
+      const maxZone = traffic.zoneIds.reduce((max, current) => {
+        return Number(current.data) > Number(max.data) ? current : max;
+      }, { data: -Infinity });
+
+      pdf.text("Ghi chú:", 20, 150);
+      pdf.text("Khu vực có truy cập cao nhất: " + maxZone.name + ", có " + maxZone.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
   
-    pdf.text("Ghi chú:", 20, 150);
-    pdf.text("Khu vực có truy cập cao nhất: " + maxZone.name + ", có " + maxZone.data + " lượt truy cập.", 30, 160, { maxWidth: pageWidth - 40 });
-  
-    // Lọc các khu vực còn lại và thêm vào PDF
-    let yPosition = 170; // Vị trí y bắt đầu ghi chú các khu vực còn lại
-    traffic.zoneIds
-      .filter(zone => zone.name !== maxZone.name) // Bỏ khu vực có lượng truy cập cao nhất
-      .forEach(zone => {
-        pdf.text("- " + zone.name + ": " + zone.data + " lượt truy cập.", 30, yPosition, { maxWidth: pageWidth - 40 });
-        yPosition += 10; // Tăng vị trí y cho dòng tiếp theo
-      });
+      // Lọc các khu vực còn lại và thêm vào PDF
+      let yPosition = 170; // Vị trí y bắt đầu ghi chú các khu vực còn lại
+      traffic.zoneIds
+        .filter(zone => zone.name !== maxZone.name) // Bỏ khu vực có lượng truy cập cao nhất
+        .forEach(zone => {
+          pdf.text("- " + zone.name + ": " + zone.data + " lượt truy cập.", 30, yPosition, { maxWidth: pageWidth - 40 });
+          yPosition += 10; // Tăng vị trí y cho dòng tiếp theo
+        });
+    }
   }
   // Mở URL trong tab mới
   // const pdfBlob = pdf.output("blob");
