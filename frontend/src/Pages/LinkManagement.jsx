@@ -329,11 +329,11 @@ export default function LinkManagement() {
             </div>
 
             <div> 
-              <select className="mt-5 p-2 border rounded bg-white text-gray-700" value={selectedOption} onChange={handleChange}>
+              {/* <select className="mt-5 p-2 border rounded bg-white text-gray-700" value={selectedOption} onChange={handleChange}>
                 <option value="all-days">Tất cả</option>
                 <option value="week">Tuần gần nhất</option>
                 <option value="month">Tháng gần nhất</option>
-              </select>
+              </select> */}
 
               <button onClick={exportToExcel} className="mt-5 p-2 bg-blue-500 hover:bg-blue-700 cursor-pointer text-white font-bold mx-5 rounded"><FontAwesomeIcon icon={faDownload} /> Excel</button>
             </div>

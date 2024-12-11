@@ -25,7 +25,7 @@ export default function Header() {
     <div>
       <div className="hidden md:block">
         <div className='flex justify-around items-center p-1'>
-          <img src="./../Logo.png" alt="" className='w-[180px]' onClick={()=>navigate("/")}/>
+          <img src="/src/assets/Logo.png" alt="" className='w-[180px]' onClick={()=>navigate("/")}/>
           <ul className='flex gap-4 md:gap-14'>
             <li className='flex items-center hover:text-blue-500 cursor-pointer'> <Link to={"home"}>Trang chủ</Link> </li>
             <li className='flex items-center hover:text-blue-500 cursor-pointer'> <Link to={"contact"}>Liên hệ</Link> </li>
